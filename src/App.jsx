@@ -1,23 +1,36 @@
 import "./styles.css";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Container from "./Container";
+import Counter from "./Counter";
+import { getUuids } from "./Mockservice";
+import Select from "react-select";
+import MSelect from "./MSelect";
 
 export default function App() {
-  let options = [];
-  let optionsRef = useRef(options);
-  optionsRef.current = options;
+  const options = [];
+  const [selected, setSelected] = useState([]);
 
   useEffect(() => {
-    optionsRef.current.push(
-      { label: "-- Select --", value: "0" },
-      { label: "AAAA", value: "1" },
-      { label: "BBBB", value: "2" }
-    );
+    async function fetchData() {
+      let uuids = await getUuids();
+      options.push(
+        ...uuids.map((x, i) => {
+          return { label: x, value: i };
+        })
+      );
+    }
+    fetchData();
+  });
+
+  const handleClick = useCallback(() => {
+    console.log(options[1]);
+    setSelected(options[1]);
   });
 
   return (
     <div>
-      <Container options={options} />
+      <MSelect options={options} defaultOption={selected} />
+      <button onClick={handleClick}>Set Second Option as Selected</button>
     </div>
   );
 }
