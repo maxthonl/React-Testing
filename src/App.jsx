@@ -29,8 +29,12 @@ export default function App() {
 
   return (
     <div>
+      <div> &nbsp; </div>
       <MSelect options={options} defaultOption={selected} />
+      <div> &nbsp; </div>
       <button onClick={handleClick}>Set Second Option as Selected</button>
+      <div> &nbsp; </div>
+      <Counter />
     </div>
   );
 }
